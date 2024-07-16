@@ -20,14 +20,17 @@ class RandomSelector(QMainWindow):
         palette.setColor(QPalette.ToolTipBase, QColor(255, 255, 220))  # 设置工具提示背景颜色为浅黄色
         palette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))  # 设置工具提示文本颜色为黑色
         app.setPalette(palette)
-
+                
         self.setWindowTitle("随机点人")
         self.setWindowIcon(QIcon('icon.png'))
         self.setGeometry(300, 300, 400, 250)
 
-        with open('students.txt', 'r', encoding='utf-8') as file:
-            self.students = file.readlines()
-        self.students = [student.strip() for student in self.students if student.strip()]
+        try:
+            with open('students.txt', 'r', encoding='utf-8') as file:
+                self.students = [student.strip() for student in file.readlines() if student.strip()]
+        except FileNotFoundError:
+            self.students = []
+            QMessageBox.critical(self, "错误", "未找到学生名单文件。")
 
         self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)
@@ -47,7 +50,7 @@ class RandomSelector(QMainWindow):
         self.copyright_button = QPushButton("关于", self)
         self.copyright_button.clicked.connect(self.show_copyright_info)
         layout.addWidget(self.copyright_button)
-        
+
         self.timer = QTimer(self)
         self.timer.setSingleShot(True)
         self.timer.setInterval(1200)
@@ -55,11 +58,17 @@ class RandomSelector(QMainWindow):
         self.timer.start()
 
     def random_select(self):
-        self.selected_text.setText("随机选人中...")
-        self.timer.start()
+        if self.students:
+            self.selected_text.setText("随机选人中...")
+            self.timer.start()
+        else:
+            QMessageBox.warning(self, "警告", "学生名单为空。")
 
     def display_random_student(self):
-        self.selected_text.setText(f"选中的学生是：{random.choice(self.students)}")
+        if self.students:
+            self.selected_text.setText(f"选中的学生是：{random.choice(self.students)}")
+        else:
+            self.selected_text.setText("没有学生可供选择。")
 
     def show_copyright_info(self):
         QMessageBox.about(self, "版权信息", "版权所有 (C) 2023 轻云网络。\n版本号2.0.0_Run in PyQt5")
@@ -69,3 +78,8 @@ if __name__ == '__main__':
     selector = RandomSelector()
     selector.show()
     sys.exit(app.exec_())
+'''
+修改如下：
+错误处理：增加了对文件未找到的错误处理，当文件未找到时，显示错误信息并初始化一个空的学生列表。
+逻辑优化：在random_select和display_random_student方法中增加了对学生列表是否为空的检查，避免在列表为空时进行不必要的操作。
+'''
