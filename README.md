@@ -24,7 +24,7 @@
 - Python 3.x
 - Tkinter 库（Python 标准库，无需额外安装）
 - PyQt5 库（可通过 pip 安装：`pip install pyqt5`）
-- 一个包含学生名单的 `students.txt` 文件，位于与 `new.py` 相同的目录下
+- 一个包含学生名单的 `students.txt` 文件，位于与 `RSP.py` 相同的目录下
 
 ## 运行说明
 
@@ -32,10 +32,10 @@
    ```
    pip install pyqt5
    ```
-2. 将学生名单文件 `students.txt` 放在与 `new.py` 相同的目录下。
+2. 将学生名单文件 `students.txt` 放在与 `RSP.py` 相同的目录下。
 3. 打开命令行或终端。
-4. 导航到包含 `new.py` 和 `students.txt` 的目录。
-5. 运行 `python new.py`。
+4. 导航到包含 `RSP.py` 和 `students.txt` 的目录。
+5. 运行 `python RSP.py`。
 
 ## 注意事项
 
